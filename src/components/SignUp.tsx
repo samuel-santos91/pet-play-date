@@ -1,4 +1,5 @@
 import { useForm } from "react-hook-form";
+import { registerUser } from "../services/api";
 
 interface SignUpInput {
   username: string;
@@ -7,10 +8,15 @@ interface SignUpInput {
 }
 
 const SignUp = () => {
-  const { register, handleSubmit } = useForm<SignUpInput>();
+  const { register, handleSubmit, reset } = useForm<SignUpInput>();
 
-  const formSubmit = (data: SignUpInput) => {
-    console.log(data);
+  const formSubmit = async (data: SignUpInput) => {
+    try {
+      await registerUser(data).then((res) => console.log(res));
+      reset();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
