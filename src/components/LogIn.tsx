@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
-import { userExists } from "../services/api";
+import { default as Cookies } from "js-cookie";
 
+import { userExists } from "../services/api";
 interface LogInInput {
   username: string;
   password: string;
@@ -11,7 +12,11 @@ const LogIn = () => {
 
   const formSubmit = async (data: LogInInput) => {
     try {
-      await userExists(data).then((res) => console.log(res));
+      await userExists(data).then((res) => {
+        const jwtToken = res;
+        Cookies.set("jwtToken", jwtToken, { expires: 1 / 24 });
+        console.log(res);
+      });
       reset();
     } catch (error) {
       console.log(error);
