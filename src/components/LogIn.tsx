@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { default as Cookies } from "js-cookie";
 
 import { userExists } from "../services/api";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 interface LogInInput {
   username: string;
   password: string;
@@ -51,6 +51,10 @@ const LogIn = () => {
         </div>
         <button className="btn-submit">SUBMIT</button>
       </form>
+
+      <Link className="hover:text-blue-400" to="/signup">
+        Register
+      </Link>
     </>
   );
 };
