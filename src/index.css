@@ -2,3 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .btn-submit {
+    @apply m-4 p-2 px-4 bg-blue-950 text-white rounded-md border-solid border-2 border-white 
+        hover:bg-blue-500 hover:cursor-pointer;
+  }
+
+  .input-main {
+    @apply indent-2 border-solid border-2 border-blue-950 rounded-xl h-9 w-80;
+  }
+}

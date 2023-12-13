@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { default as Cookies } from "js-cookie";
 
 import { userExists } from "../services/api";
+import { useNavigate } from "react-router-dom";
 interface LogInInput {
   username: string;
   password: string;
@@ -9,12 +10,14 @@ interface LogInInput {
 
 const LogIn = () => {
   const { register, handleSubmit, reset } = useForm<LogInInput>();
+  const navigate = useNavigate();
 
   const formSubmit = async (data: LogInInput) => {
     try {
       await userExists(data).then((res) => {
         const jwtToken = res;
         Cookies.set("jwtToken", jwtToken, { expires: 1 / 24 });
+        navigate("/main");
         console.log(res);
       });
       reset();
@@ -27,26 +30,26 @@ const LogIn = () => {
     <>
       <form onSubmit={handleSubmit(formSubmit)}>
         <h2>LOG IN</h2>
-        <div>
+        <div className="flex flex-col items-center">
           <label htmlFor="username">Username</label>
           <input
-            className="border-solid border-2 border-black"
+            className="input-main"
             type="text"
             id="username"
             {...register("username")}
           />
         </div>
 
-        <div>
+        <div className="flex flex-col items-center">
           <label htmlFor="password">Password</label>
           <input
-            className="border-solid border-2 border-black"
+            className="input-main"
             type="password"
             id="password"
             {...register("password")}
           />
         </div>
-        <button className="border-solid border-2 border-black">SUBMIT</button>
+        <button className="btn-submit">SUBMIT</button>
       </form>
     </>
   );
