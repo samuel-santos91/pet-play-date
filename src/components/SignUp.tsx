@@ -1,15 +1,16 @@
 import { useForm } from "react-hook-form";
 import { default as Cookies } from "js-cookie";
+import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
 import { registerUser } from "../services/api";
-import { useNavigate } from "react-router-dom";
 
 interface SignUpInput {
   username: string;
   email: string;
   password: string;
 }
-
+ 
 const SignUp = () => {
   const { register, handleSubmit, reset } = useForm<SignUpInput>();
   const navigate = useNavigate();
@@ -19,8 +20,9 @@ const SignUp = () => {
       await registerUser(data).then((res) => {
         const jwtToken = res;
         Cookies.set("jwtToken", jwtToken, { expires: 1 / 24 });
-        navigate("/main")
-        console.log(res);
+
+        const decodedToken = jwtDecode(jwtToken);
+        navigate(`/main/${decodedToken.sub}`)
       });
       reset();
     } catch (error) {

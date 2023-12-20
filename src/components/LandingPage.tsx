@@ -7,6 +7,7 @@ const LandingPage = () => {
 
   useEffect(() => {
     const storedToken = Cookies.get("jwtToken");
+
     if (!storedToken) {
       navigate("/");
     }
